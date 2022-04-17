@@ -1,0 +1,94 @@
+create database store;
+
+create table country(
+	code int primary key,
+	name varchar(20) unique,
+	continent_name varchar(20) not null
+
+);
+
+/* -------------------Go------------*/
+
+USE store;
+create table users(
+	id int primary key,
+	full_name varchar(20),
+	email varchar(20) unique,
+	gender char(1) check (gender='m' or gender='f'),
+	date_of_birth varchar(15),
+	created_at datetime,
+	country_code int,
+	foreign key (country_code) references countries(code)
+);
+
+/* -------------------Go------------*/
+
+USE store;
+CREATE TABLE orders(
+	id int PRIMARY KEY,
+    status varchar(6),
+    created_at datetime,
+	user_id int,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+/* -------------------Go------------*/
+
+use store;
+CREATE TABLE order_products(
+    order_id int,
+    product_id int,
+    quantity int DEFAULT 0,
+    PRIMARY KEY (order_id, product_id),
+    FOREIGN KEY (order_id) REFERENCES orders(id),
+    FOREIGN KEY (product_id) REFERENCES products(id)
+);
+
+/* -------------------Go------------*/
+
+use store;
+CREATE TABLE products(
+    id int PRIMARY KEY,
+    name varchar(10) NOT NULL,
+	price int DEFAULT 0,
+    status varchar(10) CHECK (status='valid' or status='expired'),
+	created_at datetime	
+);
+
+
+/* -------------------Go------------*/
+
+use store;
+INSERT INTO countries(code, name, continent_name) VALUES('1','saudi arabia','asia');
+
+/* -------------------Go------------*/
+
+use store;
+INSERT INTO users (id, full_name, email, gender, date_of_birth, created_at, country_code) VALUES ('1', 'Abdullah alawad', 'abdullah.98ha@gmail.', 'm', '1998', '0000-00-00 00:00:00', '1');
+
+/* -------------------Go------------*/
+
+use store;
+INSERT INTO orders (id,status,created_at,user_id) VALUES ('1','valid', '0000-00-00 00:00:00', '1');
+
+/* -------------------Go------------*/
+
+USE store;
+INSERT INTO products (id, name, price, status, created_at) VALUES ('1', 'asd', '0', 'valid', '0000-00-00 00:00:00');
+
+/* -------------------Go------------*/
+
+USE store;
+INSERT INTO order_products (order_id,product_id) VALUES ('1','1');
+
+/* -------------------Go------------*/
+
+USE store;
+UPDATE countries
+SET name = 'kwait', continent_name = 'asia1'
+WHERE code =1;
+
+/* -------------------Go------------*/
+
+use store;
+DELETE FROM products WHERE id=1;
